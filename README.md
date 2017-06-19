@@ -22,7 +22,7 @@ Your team of developers have also figured out that in order to be able to popula
 1. Become familiar with adding various UI elements to a storyboard 
   2. `UINavigationController` ([Apple Docs](https://developer.apple.com/reference/uikit/uinavigationcontroller))
   3. `UITableViewController` ([Apple Docs](https://developer.apple.com/reference/uikit/uitableviewcontroller))
-2. Understand how `UITableView`s efficiently display and manage data in `UITableViewCell`s (["A Closer Look at Table View Cells"](https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/TableView_iPhone/TableViewCells/TableViewCells.html#//apple_ref/doc/uid/TP40007451-CH7))
+2. Understand how [`UITableView`s](https://developer.apple.com/reference/uikit/uitableview) efficiently display and manage data in `UITableViewCell`s (["A Closer Look at Table View Cells"](https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/TableView_iPhone/TableViewCells/TableViewCells.html#//apple_ref/doc/uid/TP40007451-CH7))
 3. Learn how to populate and display data in `UITableView` by way of its delegate protocols
   4. `UITableViewDataSource` ([Apple Docs](https://developer.apple.com/reference/uikit/uitableviewdatasource))
   5. `UITableViewDelegate` ([Apple Docs](https://developer.apple.com/reference/uikit/uitableviewdelegate))
