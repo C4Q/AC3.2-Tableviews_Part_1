@@ -140,6 +140,128 @@ What this means, is that we're going to have to reverse engineer a solution to p
 
 #### Reverse Engineering
 
+The first step, in our case, is to check the tests that have been provided. We'll start with the first test in the list, `func test_Default_Movie_Init()`. (Go ahead and uncomment the code for this function):
+
+```swift
+func test_Default_Movie_Init() {
+    let testMovie = Movie()
+
+    XCTAssertTrue(testMovie.title == "", "A default init of movie should have an empty sting for title")
+    XCTAssertTrue(testMovie.genre == "", "A default init of movie should have an empty sting for genre")
+    XCTAssertTrue(testMovie.year == 1970, "A default init of movie should have a year of 1970")
+    XCTAssertTrue(testMovie.locations == [], "A default init of movie should have an empty array of strings for locations")
+    XCTAssertTrue(testMovie.cast == [], "A default init of movie should have an empty array of strings for actors")
+    XCTAssertTrue(testMovie.summary == "", "A default init of movie should have an empty string for summary")
+}
+```
+
+Run the test and see the output produced (*spoiler:* it will fail). You can run tests by pressing `CMD` + `U` or going into the menu option `Product > Test`.
+
+![Errors in testing](./Images/testing_makes_errors.png)
+
+> Before moving on, take a moment to think about what information about `Movie` we can derive from `test_Default_Movie_Init` ... it's actually quite a lot!
+
+Recall that the general guidelines for a test are that they describe what they are testing and provide feedback to determine what isn't working (so that you can fix it faster). Tests also give you the answer to the question you need to ask, you just need to figure out what the question is -- which is exactly why this is reverse engineering at its core.
+
+So what can we say about our code based on this one testing function? Here are some guiding questions to help you:
+
+1. What object are we trying to test testing?
+2. What function of that object is being tested?
+3. What should the properties for that object be?
+
+Well, from the name of the function, `test_Default_Movie_Init` we can gather that we're testing out the default initializer of a `Movie` object. Since the initialization takes no parameters, we know that the initilazer will look like:
+
+```swift
+class Movie {
+    init() {
+    }
+}
+```
+
+From the assertions being made, we know what kinds of properties the object will have (mostly):
+
+```swift
+class Movie {
+    var title: String
+    var year: Int
+    var genre: String
+    var cast // ??
+    var locations // ??
+    var summary: String
+
+    init() {
+    }
+}
+```
+
+The only trouble is with `cast` and `locations` since we're given some information that it should be an array (because its default is set to be an empty array), but we're not told the *type* of the elements in that array. Fortunately, the developer that wrote the tests left us a critical clue that we needed in the description of the errors should the assertion fail:
+
+```swift
+// thank goodness we got descriptive error messages 🙏
+XCTAssertTrue(testMovie.locations == [], "A default init of movie should have an empty array of strings for locations")
+XCTAssertTrue(testMovie.cast == [], "A default init of movie should have an empty array of strings for actors")
+```
+
+So thanks to the thoughtful developer who wrote the tests, we know we need `[String]`:
+
+```swift
+class Movie {
+    var title: String
+    var year: Int
+    var genre: String
+    var cast : [String]
+    var locations: [String]
+    var summary: String
+
+    init() {
+    }
+}
+```
+
+But what about actually filling in the implementation of the init? Well, the tests tell us what each value should be when a new `Movie` is created with this initializer, so:
+
+```swift
+class Movie {
+    var title: String
+    var year: Int
+    var genre: String
+    var cast : [String]
+    var locations: [String]
+    var summary: String
+
+    init() {
+      self.title = ""
+      self.year = 1970
+      self.genre = ""
+      self.cast = []
+      self.locations = []
+      self.summary = ""
+    }
+}
+```
+
+The final step is to ensure our tests now run. Go ahead and give it another go!
+
+> If youre feeling adventurous, change some of the assertions so that they produce 'false' instead of 'true'. Re-run the test and observe Xcode for changes.
+
+#### Exercise:
+
+We've just seen that tests tell us what our expected outputs, given expected inputs, should be. And since we know what we *should* get, we can *assert* that certain things are true. We need to continue filling out the `Movie` class based on the remaining tests. Let's start with one more, `func test_Full_Movie_Init()`
+
+1. Uncomment the code in `func test_Full_Movie_Init()`
+2. Think about (or discuss with a partner) what information we can get from the test
+3. Write the code the test says is necessary
+4. Run the tests and make sure both your tests pass
+
+
+> TODO
+1. Figure out if there are more tests needed
+2. At what point are dictionary parsing init should be added? maybe part two..
+3. Go over cell population
+4. Get rid of old branchs
+5. add exercises using tests to solve them
+6. add tags?
+
 
 
 ---
