@@ -10,7 +10,7 @@
 
 ### References
 
-2.  [`UINavigationController` - Apple Docs](https://developer.apple.com/reference/uikit/uinavigationcontroller)
+1.  [`UINavigationController` - Apple Docs](https://developer.apple.com/reference/uikit/uinavigationcontroller)
 3.  [`UITableViewController`  - Apple Docs](https://developer.apple.com/reference/uikit/uitableviewcontroller)
 4.  [`UITableViewDataSource`  - Apple Docs](https://developer.apple.com/reference/uikit/uitableviewdatasource)
 5.  [`UITableViewDelegate` - Apple Docs](https://developer.apple.com/reference/uikit/uitableviewdelegate)
@@ -23,9 +23,9 @@
 3. **`reuseIdentifier`**: String value that you use to specify a "prototype" cell in a table. [Docs](https://developer.apple.com/documentation/uikit/uitableviewcell/1623246-reuseidentifier#)
 4. **Protocol**: A protocol defines a blueprint of methods, properties, and other requirements that suit a particular task or piece of functionality.
 5. **Adoption/Conforming**: The process of saying a class, structure, or enumeration will fulfill the blueprint of a protocol. Any type that satisfies the requirements of a protocol is said to conform to that protocol. [Docs](https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Protocols.html)
-  - *UITableViewController **adopts** the UITableViewDataSource protocol*
-  - *UITableViewController **conforms** to the UITableViewDataSource protocol*
-  - These are mostly just synonyms of each other.
+    - *UITableViewController **adopts** the UITableViewDataSource protocol*
+    - *UITableViewController **conforms** to the UITableViewDataSource protocol*
+    - These are mostly just synonyms of each other.
 
 ---
 ### 0. Objectives
@@ -75,10 +75,10 @@ With the `UITableViewController` selected in the storyboard, we're going to *emb
 <br><br>
 Generally, the storyboard will reflect the UI our app should have. But we need to tell Xcode where our app actually begins! We do this by setting the <b>Is Initial View Controller</b> flag on the <code>UINavigationController</code>. We can set this property by selecting the  <code>UINavigationController</code> in storyboard, and then going into the <b>Attributes Inspector</b> in the right pane in Xcode
 <b>
-<img src="./Images/is_initial_screenshot.png">
+<img src="./Images/is_initial_screenshot.png" max-width="50%" max-height="50%">
 <br><br>
 </details>
-
+<br>
 
 5. With the `UITableViewController` selected in the storyboard, take a look at the *Identity Inspector* in the *Utilities Area*
   - We'll need to change this to our own custom class
