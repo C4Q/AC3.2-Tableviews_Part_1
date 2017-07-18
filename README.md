@@ -119,11 +119,13 @@ All this operator says is that if the value of to the left of the `??` is nil, t
 This is a nice shorthand for simple `nil` checking instead of having to use an `if-let` or `guard` statement
 
 #### cellForRow:
+
 For every type of cell you create, you'll need to define it's `cellIdentifier` property. The `cellIdentifier` will let `cellForRow` know which kind of cell it will `dequeue` for use. 
 
 Think of how many movies have been made since cinema began.. likely in the tens of thousands. If Reel Good wants us to display (potentially) all of these movies in this table, that's going to be a lot of `Movie` instances. And each of those instances is going to need its own cell, which itself is a couple of `UIView`s. The amount of memory needed to store and display all of that data is beyond what an iPhone could handle all at once. So instead, a tableview efficiently manages its cells by only creating as many as it needs to show on the screen at once. So if only 10 cells can be visible at a time on the screen, then only 10 cell exist in memory. 
 
 When you scroll up or down, behind the scenes, the table view takes the cell that just scrolled off screen and reuses it! That cell get the data of the next `Movie` object and gets placed at the bottom of the table. In that way, the views are rotated from top to bottom (or vice-versa) as needed. 
+
 
 #### Cell Styles
 
