@@ -17,14 +17,14 @@ class MovieTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Reel Good!"
-//        self.tableView.backgroundColor = UIColor.blue
-        
+        self.tableView.backgroundColor = UIColor.blue
+		
         // 2. parse our movie data and set it to our instance var
-        var movieContainer: [Movie] = []
-        for rawMovie in rawMovieData {
-            movieContainer.append(Movie(from: rawMovie))
-        }
-        movieData = movieContainer
+//        var movieContainer: [Movie] = []
+//        for rawMovie in rawMovieData {
+//            movieContainer.append(Movie(from: rawMovie))
+//        }
+//        movieData = movieContainer
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,12 +36,12 @@ class MovieTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // We're only going to need 1 section for our limited data
-        return 1
+        return 0 // 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // let's use the nil coalescing operator to guard against crashes in our tableview's early lifecycle
-        return self.movieData?.count ?? 0
+        return 0 // self.movieData?.count ?? 0
     }
 
     
@@ -49,15 +49,15 @@ class MovieTableViewController: UITableViewController {
         // 3. Where did this cellIdentifier come from? 
         // And why do we even need it? 
         // And what about the cell style?
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+//        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+//
+//        // 4. And configure our cell
+//        if let movieAtIndexPath: Movie = self.movieData?[indexPath.row] {
+//            cell.textLabel?.text = "\(movieAtIndexPath.title as String) - \(movieAtIndexPath.year as Int)"
+//            cell.detailTextLabel?.text = movieAtIndexPath.summary
+//        }
 
-        // 4. And configure our cell
-        if let movieAtIndexPath: Movie = self.movieData?[indexPath.row] {
-            cell.textLabel?.text = "\(movieAtIndexPath.title as String) - \(movieAtIndexPath.year as Int)"
-            cell.detailTextLabel?.text = movieAtIndexPath.summary
-        }
-
-        return cell
+        return UITableViewCell(style: .subtitle, reuseIdentifier: "reuse")//cell
     }
  
 
