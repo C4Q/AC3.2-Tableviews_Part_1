@@ -72,10 +72,10 @@ Click on `Main.storyboard` to open the file in your main window. Now add a `UITa
 With the `UITableViewController` selected in the storyboard, we're going to *embed* a `UINavigationController`  by going to `Editor > Embed In > Navigation Controller`. Go ahead and try running the project now.
 
 <details><summary>Q: Why is the screen still blank?</summary>
-<br><br>
+<br>
 Generally, the storyboard will reflect the UI our app should have. But we need to tell Xcode where our app actually begins! We do this by setting the <b>Is Initial View Controller</b> flag on the <code>UINavigationController</code>. We can set this property by selecting the  <code>UINavigationController</code> in storyboard, and then going into the <b>Attributes Inspector</b> in the right pane in Xcode
 <b>
-<img src="./Images/is_initial_screenshot.png" max-width="50%" max-height="50%">
+<img src="./Images/is_initial_screenshot.png" width="200">
 <br><br>
 </details>
 <br>
