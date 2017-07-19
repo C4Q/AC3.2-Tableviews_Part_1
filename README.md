@@ -65,12 +65,13 @@ Open the project labeled `Tableviews_Part_1.xcodproj` and get familiar with the 
 > You'll notice that the project is divided into a few folders, and that your `Movie` and `Actor` Swift files are made for you, but are currently empty. The storyboard should also be blank.
 > If you tried to run the project now, you'd see a splash screen with the app's logo followed by a blank screen in your simulator
 
-![Project organization - Models](./Images/model_structure_xcode.png)
+<img src="./Images/model_structure_xcode.png" width="200" alt="Project organization - Models">
+
 
 Click on `Main.storyboard` to open the file in your main window. Now add a `UITableviewController` by dragging it over into the editor window from the *Object Library* in the *Utilies Area*. You can save yourself some time by using the search filter to search for "table".
 
-![Locating UIElements in Xcode](./Images/selecting_UI_element_no_filter.png)
-![Filtering UIElements in Xcode](./Images/selecting_UI_element_with_filter.png)
+<img src="./Images/selecting_UI_element_no_filter.png" width="200" alt="Locating UIElements in Xcode">
+<img src="./Images/selecting_UI_element_with_filter.png" width="200" alt="Filtering UIElements in Xcode">
 
 With the `UITableViewController` selected in the storyboard, we're going to *embed* a `UINavigationController`  by going to `Editor > Embed In > Navigation Controller`. Go ahead and try running the project now.
 
@@ -106,7 +107,7 @@ override func viewDidLoad() {
 ```
 Now rerun the project. You should now see a blue screen along with a navigation bar that says "Reel Good!". If you see the image displayed below, then well done!
 
-<img src="./Images/blue_screen_real_good.png" width="400" alt="Blue Screen of Good (BSOG)">
+<img src="./Images/blue_screen_real_good.png" width="300" alt="Blue Screen of Good (BSOG)">
 
 > **Developer Tip:** Why did we make the background blue? In order to visualize changes easily, developers will make views bright, very identifiable colors. In order to make sure that our storyboard matched our code, we added a very obvious visual marker so that we could (quickly) determine our changes have gone into effect. Swift has a lot of color constants that you can use, like `UIColor.red`, `UIColor.yellow`, `UIColor.green`, etc.
 
@@ -157,8 +158,7 @@ func test_Default_Movie_Init() {
 
 Run the test and see the output produced (*spoiler:* it will fail). You can run tests by pressing `CMD` + `U` or going into the menu option `Product > Test`.
 
-![Errors in testing](./Images/testing_makes_errors.png)
-
+<img src="./Images/testing_makes_errors.png" width="250" alt="Errors in testing">
 
 > Before moving on, take a moment to think about what information about `Movie` we can derive from `test_Default_Movie_Init` ... it's actually quite a lot!
 
@@ -321,7 +321,7 @@ For every type of cell you create, you'll need to define it's `cellIdentifier` p
 
 Go to the storyboard and select the prototype cell inside of `MovieTableViewController` and give it a cellIdentifier of `MovieTableViewCell` and ensure that it's `style` is set to `Subtitle`:
 
-<img src="./Images/identifying_cell_storyboard.png" width="400" alt="Adding a cell identifier and adjusting style" align="center">
+<img src="./Images/identifying_cell_storyboard.png" alt="Adding a cell identifier and adjusting style" align="center">
 
 Now, back in the `MovieTableViewController.swift` file, add (just above `viewDidLoad` a variable to keep track of this identifier. We're going to use this value in just a moment:
 
@@ -411,14 +411,15 @@ with:
 
 Then, update your implementation of `init(title: String, year: Int, genre: String, cast: [String], locations: [String], summary: String)` to accept `[Actor]` for its `cast` parameter. Doing so will cause your tests to fail, so go ahead and update them to pass with the new changes.
 
-*Advanced*
+**Advanced**
+
 Don't update the implementation from `cast: [String]` to `cast[Actor]`, keep it the same. Instead, find a way to pass in an array of `String` and parse them out into `Actor` from inside the initializer.
 
 ---
 
 #### Adding new sections
 
-You may have noticed a seperate, unmentioned file in our project: `Data.swift`. There are three data structures to take note of for this example:
+You may have noticed a seperate, unmentioned file in our project: `Data.swift`. There are two data structures to take note of for this example:
 
 ```swift
 public let firstAndLastTuples: Array<(String, String)>
@@ -465,7 +466,7 @@ You'll find using <code>components(separatedBy:)</code> helpful
 
 <img src="./Images/sections_solution.png" width="400" alt="More Sections Solution" align="center">
 
-*Advanced*
+**Advanced**
 
 Do the above but with:
 
@@ -493,6 +494,4 @@ convenience init(from string: String)
 > NOTE: Be sure to use the new initializer for `Actor` inside of the initializer for `Movie` to correctly create `Actor` objects!!
 
 In the `viewDidLoad` method of `MovieTableViewController`, iterate over `movies` and create new instances of `Movie` using your new initializer. Then add these instances to `var movieData`. Run your project and make sure you can see:
-
-<img src="./Images/final_advanced_all_movies_listed.png" width="400" alt="Advanced Solution">
 
