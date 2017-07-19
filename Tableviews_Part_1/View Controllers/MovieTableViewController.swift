@@ -10,14 +10,19 @@ import UIKit
 
 class MovieTableViewController: UITableViewController {
     // 1. Set up some variables and set the cellIdentifier
-    internal var movieData: [Movie]?
+    internal var movieData: [Movie]!
     internal let rawMovieData: [[String : Any]] = movies
     let cellIdentifier: String = "MovieTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Reel Good!"
-        self.tableView.backgroundColor = UIColor.blue
+//        self.tableView.backgroundColor = UIColor.blue
+		
+		self.movieData = [
+			Movie(title: "Rogue One", year: 2016, genre: "Sci-Fi", cast: [], locations: ["Space"], summary: "An awesome Star Wars movie"),
+			Movie(title: "Wonder Woman", year: 2017, genre: "Superhero", cast: [], locations: ["Europe"], summary: "Wonder Woman fights evil, and wins.")
+		]
 		
         // 2. parse our movie data and set it to our instance var
 //        var movieContainer: [Movie] = []
@@ -35,29 +40,25 @@ class MovieTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // We're only going to need 1 section for our limited data
-        return 0 // 1
+        // We're only going to need 1 section for our limited data, [Movies]
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // let's use the nil coalescing operator to guard against crashes in our tableview's early lifecycle
-        return 0 // self.movieData?.count ?? 0
+        return self.movieData.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // 3. Where did this cellIdentifier come from? 
-        // And why do we even need it? 
-        // And what about the cell style?
-//        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-//
-//        // 4. And configure our cell
-//        if let movieAtIndexPath: Movie = self.movieData?[indexPath.row] {
-//            cell.textLabel?.text = "\(movieAtIndexPath.title as String) - \(movieAtIndexPath.year as Int)"
-//            cell.detailTextLabel?.text = movieAtIndexPath.summary
-//        }
+        // 1.
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        let cellMovie = self.movieData[indexPath.row]
+		
+		cell.textLabel?.text = "\(cellMovie.title) - \(cellMovie.year)"
+		cell.detailTextLabel?.text = cellMovie.summary
 
-        return UITableViewCell(style: .subtitle, reuseIdentifier: "reuse")//cell
+        return cell
     }
  
 

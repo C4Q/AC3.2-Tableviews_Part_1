@@ -70,17 +70,17 @@ class Tableviews_Part_1Tests: XCTestCase {
     }
 	
 	func test_Default_Movie_Init() {
-		let testMovie = Movie()
+//		let testMovie = Movie()
 
-		XCTAssertTrue(testMovie.title == "", "A default init of movie should have an empty sting for title")
-		XCTAssertTrue(testMovie.genre == "", "A default init of movie should have an empty sting for genre")
-		XCTAssertTrue(testMovie.year == 1970, "A default init of movie should have a year of 1970")
-		XCTAssertTrue(testMovie.locations == [], "A default init of movie should have an empty string array for locations")
-		XCTAssertTrue(testMovie.cast == [], "A default init of movie should have an empty string array for actors")
-		XCTAssertTrue(testMovie.summary == "", "A default init of movie should have an empty sting for summary")
+//		XCTAssertTrue(testMovie.title == "", "A default init of movie should have an empty sting for title")
+//		XCTAssertTrue(testMovie.genre == "", "A default init of movie should have an empty sting for genre")
+//		XCTAssertTrue(testMovie.year == 1970, "A default init of movie should have a year of 1970")
+//		XCTAssertTrue(testMovie.locations == [], "A default init of movie should have an empty string array for locations")
+//		XCTAssertTrue(testMovie.cast == [], "A default init of movie should have an empty string array for actors")
+//		XCTAssertTrue(testMovie.summary == "", "A default init of movie should have an empty sting for summary")
 	}
 	
-//	func test_Full_Movie_Init() {
+	func test_Full_Movie_Init() {
 //		let testMovie = Movie(title: "Rogue One",
 //		                      year: 2016,
 //		                      genre: "Sci-Fi",
@@ -94,7 +94,21 @@ class Tableviews_Part_1Tests: XCTestCase {
 //		XCTAssertTrue(testMovie.locations == ["Far-away Galaxy"])
 //		XCTAssertTrue(testMovie.cast == ["Felicity Jones", "Diego Luna", "Donnie Yen", "Forest Whitaker"])
 //		XCTAssertTrue(testMovie.summary == "All looks lost for the Rebellion against the Empire as they learn of the existence of a new super weapon, the Death Star. Once a possible weakness in its construction is uncovered, the Rebel Alliance must set out on a desperate mission to steal the plans for the Death Star. The future of the entire galaxy now rests upon its success")
-//	}
+	}
+	
+	func test_Default_Actor_Init() {
+		let testActor = Actor()
+		
+		XCTAssertTrue(testActor.firstName == "", "The default init of Actor should have a blank firstname")
+		XCTAssertTrue(testActor.lastName == "", "The default init of Actor should have a blank lastname")
+	}
+	
+	func test_Full_Actor_Init() {
+		let testActor = Actor(firstName: "Felicity", lastName: "Jones")
+		
+		XCTAssertTrue(testActor.firstName == "Felicity")
+		XCTAssertTrue(testActor.lastName == "Jones")
+	}
 //    func test_Movie_Parsing_From_Valid_Data() {
 //        var movies: [Movie] = []
 //        for validMovieData in validTestData {

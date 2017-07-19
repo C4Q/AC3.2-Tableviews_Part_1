@@ -106,7 +106,7 @@ override func viewDidLoad() {
 ```
 Now rerun the project. You should now see a blue screen along with a navigation bar that says "Reel Good!". If you see the image displayed below, then well done!
 
-![Blue Screen of Good (BSOG)](.Images/blue_screen_real_good.png)
+![Blue Screen of Good (BSOG)](./Images/blue_screen_real_good.png)
 
 > **Developer Tip:** Why did we make the background blue? In order to visualize changes easily, developers will make views bright, very identifiable colors. In order to make sure that our storyboard matched our code, we added a very obvious visual marker so that we could (quickly) determine our changes have gone into effect. Swift has a lot of color constants that you can use, like `UIColor.red`, `UIColor.yellow`, `UIColor.green`, etc.
 
@@ -244,8 +244,9 @@ The final step is to ensure our tests now run. Go ahead and give it another go!
 
 > If youre feeling adventurous, change some of the assertions so that they produce 'false' instead of 'true'. Re-run the test and observe Xcode for changes.
 
-#### Exercise:
+#### Exercises:
 
+**Adding Another Function to `Movie`**
 We've just seen that tests tell us what our expected outputs, given expected inputs, should be. And since we know what we *should* get, we can *assert* that certain things are true. We need to continue filling out the `Movie` class based on the remaining tests. Let's start with one more, `func test_Full_Movie_Init()`
 
 1. Uncomment the code in `func test_Full_Movie_Init()`
@@ -253,58 +254,113 @@ We've just seen that tests tell us what our expected outputs, given expected inp
 3. Write the code the test says is necessary
 4. Run the tests and make sure both your tests pass
 
+**Filling in `Actor`**
+We now have the task of filling out the `Actor` model class based on the tests provided. Take a look at `test_Default_Actor_Init()` and `test_Full_Actor_Init()` (being sure to uncomment the code in each) and reverse engineer the two functions that `Actor` should have.
+
+> Note: You may be wondering why we created the `Actor` model if the `cast` property of `Movie` is still an array of `String`. Don't worry, we'll be returning to that in another set of exercises.
 
 > TODO
 1. Figure out if there are more tests needed
-2. At what point are dictionary parsing init should be added? maybe part two..
+2. At what point are dictionary parsing init should be added? homework
 3. Go over cell population
 4. Get rid of old branchs
 5. add exercises using tests to solve them
 6. add tags?
 
-
-
 ---
 
 ### 5. Populating Cells
-Let's get rid of that blue background, shall we?
 
-Ok, now that we have our database being properly parsed into objects we can use, let's display them in the tableview.
+Now that we have the ability to create `Movie` and `Actor` objects, let's explore how it is we can display them in our tableview. Oh, and let's get rid of that blue background, shall we?
 
-To understand how a tableview populates its cells, and what the table and cells look like (cell height, number of cells, header views, etc.), we need to look at two protocols that a `UITableViewController` conforms to:
+To understand how a tableview populates its cells, and what the table and cells look like (cell height, number of cells, header views, etc.), we need to look at two protocols that a `UITableViewController` *conforms* to:
 
 1. `UITableViewDataSource` - *"The data source provides the table-view object with the information it needs to construct and modify a table view" - Apple Doc*
 2. `UITableViewDelegate` - *"Optional methods of the protocol allow the delegate to manage selections, configure section headings and footers, help to delete and reorder cells, and perform other actions." - Apple Doc*
 
-The methods of the `UITableViewDelegate` protocol are optional, but there are three required methods for `UITableViewDataSource`
+There are three required methods for `UITableViewDataSource` (the methods of the `UITableViewDelegate` protocol are optional) which I list out here in their abbreviated form followed by their function signature:
 
 1. "numberOfSections": `numberOfSections(in tableView: UITableView) -> Int`
 2. "numberOfRows": `tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int`
 3. "cellForRow": `tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell`
 
+We're obviously going to need some `Movies` to populate our cells, so let's create some in the `viewDidLoad` method of our `MovieTableViewController`. In addition, we're going to want to keep track of the `Movie`s we create by keeping a reference to them as an instance variable, `movieData: [Movie]`:
 
-#### numberOfSections:
+```swift
+class MovieTableViewController: UITableViewController {
+    var movieData: [Movie]!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "Reel Good!"
+        self.tableView.backgroundColor = UIColor.blue
+
+        self.movieData = [
+            Movie(title: "Rogue One", year: 2016, genre: "Sci-Fi", cast: [], locations: ["Space"], summary: "An awesome Star Wars movie"),
+            Movie(title: "Wonder Woman", year: 2017, genre: "Superhero", cast: [], locations: ["Europe"], summary: "Wonder Woman fights evil, and wins.")
+        ]
+    }
+```
+
+#### `numberOfSections`:
 Not too much to say here. Creating different sections can be useful if you have different types of cells or different sets of data to display. In our case, we're just going to set this to 1 for our small data set and one kind of cell
 
-#### numberOfRows:
-We don't know exactly how many rows of data we'll have. All we know is that each row will contain the data for a single Movie object. But really, this is where a tableview shines since it allows for an unknown amount of data to be displayed. In this case, we'd like to present as many Movies as we have in movieData array
+```swift
+override func numberOfSections(in tableView: UITableView) -> Int {
+        // We're only going to need 1 section for our limited data, [Movies]
+        return 1
+}
+```
 
-Here's a important thing to remember though, in the lifecycle of a tableview it is possible that the tableview will run the `numberOfRows` function before we have time to load data in our Movie array. In fact, we can't just leave it as `self.movie?.count` as it expects a non-optional `Int` value. But this is a perfect time to use the **nil coalescing** operator.
+#### `numberOfRows`:
+We don't always know exactly how many rows of data we'll have. In this example, we have just two `[Movies]`, but if the overall goal is to create an app to display 1000's of movies, we need a way to account for all of them. All we know for sure is that each row will contain the data for a single `Movie` object. Though in this ambiguity in data set is where a tableview shines -- it allows for an unknown amount of data to be displayed. In this case, we'd like to present as many `Movies` as we have in `movieData` array.
 
-All this operator says is that if the value of to the left of the `??` is nil, to use the value to the right of the operator instead. Functionally, it's equivalent to the ternary operator `?:`
+```swift
+override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // we need as many rows as there are Movie objects in our movieData array
+        return self.movieData.count
+}
+```
 
-    let numberOfMovies: Int = self.movieData?.count != nil ? self.movieData!.count : 0
-    let numberOfMovies: Int = self.movieData?.count ?? 0 // same as the above
+#### `cellForRow`:
 
-This is a nice shorthand for simple `nil` checking instead of having to use an `if-let` or `guard` statement
+For every type of cell you create, you'll need to define it's `cellIdentifier` property. The `cellIdentifier` will let `cellForRow` know which kind of cell it will `dequeue` for use. Think of each cell prototype as being a blueprint for how a cell will appear: this includes the *data* it will display along with its overall *layout and design*. When you create a `UITableViewController` in storyboard, it automatically gets a `UITableView` with a single prototype `UITableViewCell` embedded in it. We need to somehow link up this prototype cell from storyboard (where we adjust its *layout and design*) to code (where we determine the *data* it will display). This is the purpose of the `cellIdentifier`! It is possible to have many different types of cells, each one displaying a different type of data (maybe `Movie` in some, `Actor` in another) and having a different design.
 
-#### cellForRow:
+Go to the storyboard and select the prototype cell inside of `MovieTableViewController` and give it a cellIdentifier of `MovieTableViewCell`:
 
-For every type of cell you create, you'll need to define it's `cellIdentifier` property. The `cellIdentifier` will let `cellForRow` know which kind of cell it will `dequeue` for use.
+>>> Image
 
-Think of how many movies have been made since cinema began.. likely in the tens of thousands. If Reel Good wants us to display (potentially) all of these movies in this table, that's going to be a lot of `Movie` instances. And each of those instances is going to need its own cell, which itself is a couple of `UIView`s. The amount of memory needed to store and display all of that data is beyond what an iPhone could handle all at once. So instead, a tableview efficiently manages its cells by only creating as many as it needs to show on the screen at once. So if only 10 cells can be visible at a time on the screen, then only 10 cell exist in memory.
+Now, back in the `MovieTableViewController.swift` file, add (just above `viewDidLoad` a variable to keep track of this identifier. We're going to use this value in just a moment:
 
-When you scroll up or down, behind the scenes, the table view takes the cell that just scrolled off screen and reuses it! That cell get the data of the next `Movie` object and gets placed at the bottom of the table. In that way, the views are rotated from top to bottom (or vice-versa) as needed.
+```swift
+class MovieTableViewController: UITableViewController {
+
+    internal var movieData: [Movie]!
+    let cellIdentifier: String = "MovieTableViewCell"
+
+    override func viewDidLoad() {
+        // ... the other code ...
+    }
+```
+
+#### Implementing `cellForRow`
+
+Think of how many movies have been made since cinema began.. likely in the tens of thousands. If Reel Good wants us to display (potentially) all of these movies in this table, that's going to be a lot of `Movie` instances. And each of those instances is going to need its own cell, which itself is an organized set of `UIView`s. The amount of memory needed to store and display all of that data is beyond what an iPhone could handle all at once. So instead, a tableview efficiently manages its cells by only creating as many as it needs to show on the screen at once. So if only 10 cells can be visible at a time on the screen, then only 10 cell exist in memory.
+
+When you scroll up or down, behind the scenes, the table view takes the cell that just scrolled off screen and reuses it! That cell get the data of the next `Movie` object and gets placed at the bottom of the table. In that way, the views are rotated from top to bottom (or vice-versa) as needed. This process of taking a cell that's scrolled off screen and *reusing* it by updating the data it displays before drawing it back on screen is called *dequeueing*. Let's look at what this amounts to in code:
+
+```swift
+override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // 1.
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        let cellMovie = self.movieData[indexPath.row]
+
+        cell.textLabel?.text = "\(cellMovie.title) - \(cellMovie.year)"
+        cell.detailTextLabel?.text = cellMovie.summary
+
+        return cell
+    }
+ ```
 
 
 #### Cell Styles

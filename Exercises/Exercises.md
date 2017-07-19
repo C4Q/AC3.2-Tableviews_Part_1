@@ -2,7 +2,7 @@
 
 ### Intro To Tests
 
-By the end of the first exercise, your `Movie` class should now include a new initializer:
+By the end of the first exercise, your `Movie` class should now include a new initializer called `init(title: String, year: Int, genre: String, cast: [String], locations: [String], summary: String) `:
 
 ```swift
 class Movie {

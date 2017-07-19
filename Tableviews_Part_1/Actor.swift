@@ -12,6 +12,14 @@ internal struct Actor {
     
     internal var firstName: String = ""
     internal var lastName: String = ""
+	
+	init() {
+	}
+	
+	init(firstName: String, lastName: String) {
+		self.firstName = firstName
+		self.lastName = lastName
+	}
     
     init(from data: String) {
         // 1. Actors will be a little easier to parse
