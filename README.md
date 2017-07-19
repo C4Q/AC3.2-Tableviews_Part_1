@@ -326,9 +326,9 @@ override func tableView(_ tableView: UITableView, numberOfRowsInSection section:
 
 For every type of cell you create, you'll need to define it's `cellIdentifier` property. The `cellIdentifier` will let `cellForRow` know which kind of cell it will `dequeue` for use. Think of each cell prototype as being a blueprint for how a cell will appear: this includes the *data* it will display along with its overall *layout and design*. When you create a `UITableViewController` in storyboard, it automatically gets a `UITableView` with a single prototype `UITableViewCell` embedded in it. We need to somehow link up this prototype cell from storyboard (where we adjust its *layout and design*) to code (where we determine the *data* it will display). This is the purpose of the `cellIdentifier`! It is possible to have many different types of cells, each one displaying a different type of data (maybe `Movie` in some, `Actor` in another) and having a different design.
 
-Go to the storyboard and select the prototype cell inside of `MovieTableViewController` and give it a cellIdentifier of `MovieTableViewCell`:
+Go to the storyboard and select the prototype cell inside of `MovieTableViewController` and give it a cellIdentifier of `MovieTableViewCell` and ensure that it's `style` is set to `Subtitle`:
 
->>> Image
+![Adding a cell identifier and adjusting style](./Images/identifying_cell_storyboard.png)
 
 Now, back in the `MovieTableViewController.swift` file, add (just above `viewDidLoad` a variable to keep track of this identifier. We're going to use this value in just a moment:
 
@@ -347,36 +347,154 @@ class MovieTableViewController: UITableViewController {
 
 Think of how many movies have been made since cinema began.. likely in the tens of thousands. If Reel Good wants us to display (potentially) all of these movies in this table, that's going to be a lot of `Movie` instances. And each of those instances is going to need its own cell, which itself is an organized set of `UIView`s. The amount of memory needed to store and display all of that data is beyond what an iPhone could handle all at once. So instead, a tableview efficiently manages its cells by only creating as many as it needs to show on the screen at once. So if only 10 cells can be visible at a time on the screen, then only 10 cell exist in memory.
 
-When you scroll up or down, behind the scenes, the table view takes the cell that just scrolled off screen and reuses it! That cell get the data of the next `Movie` object and gets placed at the bottom of the table. In that way, the views are rotated from top to bottom (or vice-versa) as needed. This process of taking a cell that's scrolled off screen and *reusing* it by updating the data it displays before drawing it back on screen is called *dequeueing*. Let's look at what this amounts to in code:
-
-```swift
-override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // 1.
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        let cellMovie = self.movieData[indexPath.row]
-
-        cell.textLabel?.text = "\(cellMovie.title) - \(cellMovie.year)"
-        cell.detailTextLabel?.text = cellMovie.summary
-
-        return cell
-    }
- ```
+When you scroll up or down, behind the scenes, the table view takes the cell that just scrolled off screen and reuses it! That cell get the data of the next `Movie` object and gets placed at the bottom of the table. In that way, the views are rotated from top to bottom (or vice-versa) as needed. This process of taking a cell that's scrolled off screen and *reusing* it by updating the data it displays before drawing it back on screen is called *dequeueing*.
 
 
-#### Cell Styles
+*Q: How do we get the movie data from our array into each cell, in the proper order?*
 
-There are a few built-in styles available to us, and we're going to use `subtitle` for this project. Thanks to the documentation, we know we have two text field for use: `textLabel` and `detailTextLabel`.
-
-How do we get the movie data from our array into each cell, in the proper order?
-Because we can use subscripts to access members of an array, we use the `indexPath` passed into this function to find the right element to display.
+Because we can use subscripts to access members of an array, we can use the provided `indexPath` parameter passed into this function to find the right element to display.
 
 An `indexPath` has a `section` property and a `row` property. We know that there will only be 1 section total (because we set it to one in `numberOfSections:`) and that each row will correspond to a single movie object (thanks to `numberOfRowsInSection:`). So by looking at the `row` value of the `indexPath`, we can use that as the subscript value in the movies array.
 
+*Q: How do we actually display the `Movie` text info?*
+
+There are a few built-in `UITableViewCellStyle`s available to us, and this time around we've gone with the `Subtitle` option. Thanks to the documentation, we know we have two text field for use: `textLabel` and `detailTextLabel`.
+
+Let's look at what all this this amounts to in code:
+
+```swift
+override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // 1. dequeue a cell that's no longer on screen, and identify it by "MovieTableViewCell"
+        //      - The indexPath here refers to the section & row the cell will occupy.
+        //      - In our example, we'll have two indexPaths, corresponding to the numberOfSections
+        //      - and numberOfRowsInSection methods:
+        //          section 0, row 0
+        //          section 0, row 1
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+
+        // 2. We want to grab the index of the movie that corresponds to the row we'll display it on
+        let cellMovie = self.movieData[indexPath.row]
+
+        // 3. Now we just add in some text
+        cell.textLabel?.text = "\(cellMovie.title) - \(cellMovie.year)"
+        cell.detailTextLabel?.text = cellMovie.summary
+
+        // 4. Lastly, we want to return the table view cell we've just updated to be added back to the
+        //  table view in its proper position
+        return cell
+}
+ ```
+
+ Run the project let's see what we get!
+
+ ![Final version of the project for part 1](./Images/final_tableview_part1.png)
+
 ---
 
-#### 5. Resizing Cells
+### 6. Coming up!
 Excellent! Reel Good absolutely adores our prototype. They only wished that they could see the movie poster art in their cells, and that the cells could expand to accomodate the text from the movie summary. Unfortunately, we tell them:
 
 > [When working with table view cells, you cannot change the layout of the predefined content (for example, the textLabel, detailTextLabel, and imageView properties).](https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithSelf-SizingTableViewCells.html)
 
-But, this was just a prototype and now there's more to come in version 2!
+I guess we'll need to customize the cell! But, this was just a prototype and now there's more to come in version 2!
+
+---
+
+### 7. Exercises
+
+#### Updating `Movie` to use an array of `Actor`
+
+In `Movie`, replace
+
+```swift
+    var cast: [String]
+```
+
+with:
+
+```swift
+    var cast: [Actor]
+```
+
+Then, update your implementation of `init(title: String, year: Int, genre: String, cast: [String], locations: [String], summary: String)` to accept `[Actor]` for its `cast` parameter. Doing so will cause your tests to fail, so go ahead and update them to pass with the new changes.
+
+*Advanced*
+Don't update the implementation from `cast: [String]` to `cast[Actor]`, keep it the same. Instead, find a way to pass in an array of `String` and parse them out into `Actor` from inside the initializer.
+
+#### Adding new sections
+
+You may have noticed a seperate, unmentioned file in our project: `Data.swift`. There are three data structures to take note of for this example:
+
+```swift
+public let firstAndLastTuples: Array<(String, String)>
+public let firstAndLastStrings: Array<String>
+```
+You are to do the following for each of these objects:
+
+1. Add a new cell prototype with unique identifier in storyboard
+2. Create a separate section in the table for each
+3. Update cells in that section with the information in each of these objects
+
+If you wanted to be diligent, implement `tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?` as well (to separate out the data)
+
+<details><summary>Hint 1</summary>
+<br><br>
+Recall that we determine the number of sections using <code>numberOfSections</code>
+<br><br>
+</details>
+<br>
+<details><summary>Hint 2</summary>
+<br><br>
+Previously, we weren't concerned about <code>indexPath</code>'s <code>section</code> property. But now we need to use it to determine which section we're in.
+<br><br>
+</details>
+<br>
+<details><summary>Hint 3</summary>
+<br><br>
+It doesn't really matter which cell style you chose.
+<br><br>
+</details>
+<br>
+<details><summary>Hint 4</summary>
+<br><br>
+Its possible to do this task with a single cell prototype. But this isn't necessary.
+<br><br>
+</details>
+<br>
+<details><summary>Hint 5</summary>
+<br><br>
+You'll find using <code>components(separatedBy:)</code> helpful
+<br><br>
+</details>
+
+![More Sections Solution](./Images/sections_solution.png)
+
+*Advanced*
+
+Do the above but with:
+
+```swift
+public let presidentsByYear: Dictionary<Int, String>
+```
+
+What makes this tricky is that it is a dictionary. So if you want to preserve a specific order you'll need to do some sorting using it's keys.
+
+![Advanced Sections Solution](./Images/sections_advanced_solution.png)
+
+#### *Advanced*: Adding a new initializer to both `Movie` and `Actor`
+
+Also included in `Data.swift` is an array of dictionarys: `public let movies: [[String:Any]] `. You are to write one new initializer for each `Movie` and `Actor`:
+
+```swift
+// Movie
+convenience init(from dict: [String : Any])
+
+// Actor
+convenience init(from string: String)
+```
+> NOTE: Be sure to use the new initializer for `Actor` inside of the initializer for `Movie` to correctly create `Actor` objects!!
+
+In the `viewDidLoad` method of `MovieTableViewController`, iterate over `movies` and create new instances of `Movie` using your new initializer. Then add these instances to `var movieData`. Run your project and make sure you can see:
+
+![Advanced Solution](./Images/final_advanced_all_movies_listed.png)
+
