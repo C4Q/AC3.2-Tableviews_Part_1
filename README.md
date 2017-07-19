@@ -395,6 +395,8 @@ I guess we'll need to customize the cell! But, this was just a prototype and now
 
 ### 7. Exercises
 
+> REMINDER: Uncomment the remaining tests in the project to verify your results!!
+
 #### Updating `Movie` to use an array of `Actor`
 
 In `Movie`, replace
