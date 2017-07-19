@@ -106,7 +106,7 @@ override func viewDidLoad() {
 ```
 Now rerun the project. You should now see a blue screen along with a navigation bar that says "Reel Good!". If you see the image displayed below, then well done!
 
-![Blue Screen of Good (BSOG)](./Images/blue_screen_real_good.png)
+<img src="./Images/blue_screen_real_good.png" width="400" alt="Blue Screen of Good (BSOG)">
 
 > **Developer Tip:** Why did we make the background blue? In order to visualize changes easily, developers will make views bright, very identifiable colors. In order to make sure that our storyboard matched our code, we added a very obvious visual marker so that we could (quickly) determine our changes have gone into effect. Swift has a lot of color constants that you can use, like `UIColor.red`, `UIColor.yellow`, `UIColor.green`, etc.
 
@@ -158,6 +158,7 @@ func test_Default_Movie_Init() {
 Run the test and see the output produced (*spoiler:* it will fail). You can run tests by pressing `CMD` + `U` or going into the menu option `Product > Test`.
 
 ![Errors in testing](./Images/testing_makes_errors.png)
+
 
 > Before moving on, take a moment to think about what information about `Movie` we can derive from `test_Default_Movie_Init` ... it's actually quite a lot!
 
@@ -259,14 +260,6 @@ We now have the task of filling out the `Actor` model class based on the tests p
 
 > Note: You may be wondering why we created the `Actor` model if the `cast` property of `Movie` is still an array of `String`. Don't worry, we'll be returning to that in another set of exercises.
 
-> TODO
-1. Figure out if there are more tests needed
-2. At what point are dictionary parsing init should be added? homework
-3. Go over cell population
-4. Get rid of old branchs
-5. add exercises using tests to solve them
-6. add tags?
-
 ---
 
 ### 5. Populating Cells
@@ -328,7 +321,7 @@ For every type of cell you create, you'll need to define it's `cellIdentifier` p
 
 Go to the storyboard and select the prototype cell inside of `MovieTableViewController` and give it a cellIdentifier of `MovieTableViewCell` and ensure that it's `style` is set to `Subtitle`:
 
-![Adding a cell identifier and adjusting style](./Images/identifying_cell_storyboard.png)
+<img src="./Images/identifying_cell_storyboard.png" width="400" alt="Adding a cell identifier and adjusting style" align="center">
 
 Now, back in the `MovieTableViewController.swift` file, add (just above `viewDidLoad` a variable to keep track of this identifier. We're going to use this value in just a moment:
 
@@ -387,7 +380,7 @@ override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexP
 
  Run the project let's see what we get!
 
- ![Final version of the project for part 1](./Images/final_tableview_part1.png)
+<img src="./Images/final_tableview_part1.png" width="400" alt="Final version of the project for part 1">
 
 ---
 
@@ -420,6 +413,8 @@ Then, update your implementation of `init(title: String, year: Int, genre: Strin
 
 *Advanced*
 Don't update the implementation from `cast: [String]` to `cast[Actor]`, keep it the same. Instead, find a way to pass in an array of `String` and parse them out into `Actor` from inside the initializer.
+
+---
 
 #### Adding new sections
 
@@ -466,10 +461,9 @@ Its possible to do this task with a single cell prototype. But this isn't necess
 You'll find using <code>components(separatedBy:)</code> helpful
 <br><br>
 </details>
+<br>
 
-![More Sections Solution](./Images/sections_solution.png)
-
-<center><img src="./Images/sections_solution.png" width="400" alt="More Sections Solution"></center>
+<img src="./Images/sections_solution.png" width="400" alt="More Sections Solution" align="center">
 
 *Advanced*
 
@@ -481,7 +475,9 @@ public let presidentsByYear: Dictionary<Int, String>
 
 What makes this tricky is that it is a dictionary. So if you want to preserve a specific order you'll need to do some sorting using it's keys.
 
-<img src="./Images/sections_advanced_solution.png" width="500" alt="Advanced Sections Solution">
+<img src="./Images/sections_advanced_solution.png" width="400" alt="Advanced Sections Solution">
+
+---
 
 #### *Advanced*: Adding a new initializer to both `Movie` and `Actor`
 
@@ -498,5 +494,5 @@ convenience init(from string: String)
 
 In the `viewDidLoad` method of `MovieTableViewController`, iterate over `movies` and create new instances of `Movie` using your new initializer. Then add these instances to `var movieData`. Run your project and make sure you can see:
 
-<img src="./Images/final_advanced_all_movies_listed.png" width="500" alt="Advanced Solution">
+<img src="./Images/final_advanced_all_movies_listed.png" width="400" alt="Advanced Solution">
 
