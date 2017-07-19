@@ -479,7 +479,7 @@ public let presidentsByYear: Dictionary<Int, String>
 
 What makes this tricky is that it is a dictionary. So if you want to preserve a specific order you'll need to do some sorting using it's keys.
 
-![Advanced Sections Solution](./Images/sections_advanced_solution.png)
+<img src="./Images/sections_advanced_solution.png" width="500" alt="Advanced Sections Solution">
 
 #### *Advanced*: Adding a new initializer to both `Movie` and `Actor`
 
@@ -496,5 +496,5 @@ convenience init(from string: String)
 
 In the `viewDidLoad` method of `MovieTableViewController`, iterate over `movies` and create new instances of `Movie` using your new initializer. Then add these instances to `var movieData`. Run your project and make sure you can see:
 
-![Advanced Solution](./Images/final_advanced_all_movies_listed.png)
+<img src="./Images/final_advanced_all_movies_listed.png" width="500" alt="Advanced Solution">
 

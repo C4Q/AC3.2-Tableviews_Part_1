@@ -9,7 +9,7 @@
 import UIKit
 
 class MovieTableViewController: UITableViewController {
-    // 1. Set up some variables and set the cellIdentifier
+
     var movieData: [Movie]!
 	var presidentData: [Int : String] = presidentsByYear
 	var nameTupleData: [(String, String)] = firstAndLastTuples
