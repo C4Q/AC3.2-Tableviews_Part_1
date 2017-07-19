@@ -469,6 +469,8 @@ You'll find using <code>components(separatedBy:)</code> helpful
 
 ![More Sections Solution](./Images/sections_solution.png)
 
+<center><img src="./Images/sections_solution.png" width="400" alt="More Sections Solution"></center>
+
 *Advanced*
 
 Do the above but with:
