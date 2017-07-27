@@ -13,7 +13,7 @@ class Movie {
 	var title: String
 	var year: Int
 	var genre: String
-	var cast: [String]
+	var cast: [Actor]
 	var locations: [String]
 	var summary: String
 	
@@ -21,7 +21,7 @@ class Movie {
 		self.title = title
 		self.year = year
 		self.genre = genre
-		self.cast = cast
+		self.cast = cast.map { Actor(from: $0) }
 		self.locations = locations
 		self.summary = summary
 	}
